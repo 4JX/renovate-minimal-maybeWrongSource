@@ -1,0 +1,50 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabled": true,
+  "semanticCommits": "enabled",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    // ":prHourlyLimitNone",
+    // ":prConcurrentLimitNone",
+    ":separateMajorReleases",
+    "docker:enableMajor",
+    "docker:pinDigests"
+  ],
+
+  "schedule": ["at any time"],
+  "vulnerabilityAlerts": { "enabled": true },
+
+  // "automergeType": "pr",
+  // GitHub handles the merge
+  // "platformAutomerge": true,
+  // close superseded PRs when a newer update exists
+  // "pruneStaleBranches": true,
+  // Controls when Renovate rebases an existing branch
+  // https://docs.renovatebot.com/configuration-options/#rebasewhen
+  "rebaseWhen": "auto",
+
+  // "enabledManagers": ["nix", "regex"],
+  "nix": {
+    "enabled": true
+  },
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/.*\\.nix$/"],
+      "matchStrings": [
+        "image *= *\"(?<depName>.*?):(?<currentValue>.*?)(@(?<currentDigest>sha256:[a-f0-9]+))?\""
+      ],
+      // Automatically add digests to image strings
+      // See https://github.com/renovatebot/renovate/issues/10993
+      "autoReplaceStringTemplate": "image = \"{{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}\"",
+      "datasourceTemplate": "docker"
+    }
+  ],
+
+  // Append a table in the commit message body describing all updates in the commit
+  "commitBodyTable": true,
+  // Create PRs to roll back versions if the current version is not found in the registry.
+  "rollbackPrs": true
+}
