@@ -8,7 +8,7 @@
   config =  {
     # Extracted from docker-compose.nix
     virtualisation.oci-containers.containers."suwayomi" = {
-      image = "ghcr.io/suwayomi/suwayomi-server:v2.1.1867@sha256:acad9ea1cbb968bc95477a69e32dbc682b710a00ed6e7b06f0eb167caf382e81";
+      image = "ghcr.io/suwayomi/suwayomi-server:v2.4.2512@sha256:27dd1b51c0497b8ed4ed7c22f8564483990ce04b376cacb73eab419e80022b75";
     };
   };
 }
